@@ -27,6 +27,7 @@ public class MockUsers {
         testUsers.add(new User("Sun", "test", "test@teamtreehouse.com"));
         testUsers.add(new User("Maria", "test", "test@teamtreehouse.com"));
         testUsers.add(new User("bdeitch", "test", "bdeitch@teamtreehouse.com"));
+        testUsers.add(new User("guyb", "TESTpass01", "guy@wsit.com.au"));
     }
 
     public static void add(User user) {

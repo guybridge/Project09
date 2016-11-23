@@ -79,6 +79,7 @@ public class LoginActivity extends Activity {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                 builder.setMessage(e.getMessage())
                                         .setTitle(R.string.login_error_title)
+                                        .setMessage(R.string.password_issue)
                                         .setPositiveButton(android.R.string.ok, null);
                                 AlertDialog dialog = builder.create();
                                 dialog.show();

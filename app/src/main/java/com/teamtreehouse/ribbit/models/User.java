@@ -97,7 +97,7 @@ public class User implements Comparable<User> {
         currentUser = null;
     }
 
-    public static User getCurrentUser() {
+    public static User getCurrentUser(){
         return currentUser;
     }
 

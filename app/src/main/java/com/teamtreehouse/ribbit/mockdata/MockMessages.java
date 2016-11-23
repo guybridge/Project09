@@ -1,6 +1,7 @@
 package com.teamtreehouse.ribbit.mockdata;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.teamtreehouse.ribbit.R;
 import com.teamtreehouse.ribbit.RibbitApplication;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 public class MockMessages {
 
+    private static final String TAG = MockMessages.class.getSimpleName();
     private static MockMessages instance = null;
     private ArrayList<Message> allMessages;
 

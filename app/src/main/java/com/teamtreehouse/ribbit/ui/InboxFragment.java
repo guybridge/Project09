@@ -41,7 +41,7 @@ public class InboxFragment extends ListFragment {
                 R.color.swipeRefresh3,
                 R.color.swipeRefresh4);
 
-        retrieveMessages();
+        //retrieveMessages();
 
         return rootView;
     }
