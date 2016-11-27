@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
@@ -34,6 +35,7 @@ import com.teamtreehouse.ribbit.models.User;
 import com.teamtreehouse.ribbit.utils.Constants;
 import com.teamtreehouse.ribbit.utils.FileHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,7 +148,8 @@ public class RecipientsActivity extends AppCompatActivity {
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             case R.id.action_send:
-                ParseObject message = new ParseObject(Constants.KEY_MESSAGES);
+                ParseObject message = createMessage();
+
                 if (message == null)
                 {
                     // error
@@ -166,11 +169,11 @@ public class RecipientsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected Message createMessage()
+    protected ParseObject createMessage()
     {
-        Message message = new Message(Message.class.getSimpleName());
-        message.put(Message.KEY_SENDER_ID, User.getCurrentUser().getObjectId());
-        message.put(Message.KEY_SENDER_NAME, User.getCurrentUser().getUsername());
+        ParseObject message = new ParseObject(Constants.KEY_MESSAGES);
+        message.put(Message.KEY_SENDER_ID, ParseUser.getCurrentUser().getObjectId());
+        message.put(Message.KEY_SENDER_NAME, ParseUser.getCurrentUser().getUsername());
         message.put(Message.KEY_RECIPIENT_IDS, getRecipientIds());
         message.put(Message.KEY_FILE_TYPE, mFileType);
 
@@ -178,14 +181,20 @@ public class RecipientsActivity extends AppCompatActivity {
 
         if (fileBytes == null) {
             return null;
-        } else {
-            if (mFileType.equals(Message.TYPE_IMAGE)) {
+        }
+        else
+        {
+            if (mFileType.equals(Message.TYPE_IMAGE))
+            {
                 fileBytes = FileHelper.reduceImageForUpload(fileBytes);
             }
 
             String fileName = FileHelper.getFileName(this, mMediaUri, mFileType);
+
             MessageFile file = new MessageFile(fileName, fileBytes, mMediaUri);
-            message.put(Message.KEY_FILE, file);
+
+            ParseFile parseFile = new ParseFile(fileName, fileBytes);
+            message.put(Message.KEY_FILE, parseFile);
 
             return message;
         }
@@ -209,7 +218,9 @@ public class RecipientsActivity extends AppCompatActivity {
                 {
                     // success!
                     Toast.makeText(RecipientsActivity.this, R.string.success_message, Toast.LENGTH_LONG).show();
-                } else {
+                }
+                else
+                {
                     AlertDialog.Builder builder = new AlertDialog.Builder(RecipientsActivity.this);
                     builder.setMessage(R.string.error_sending_message)
                             .setTitle(R.string.error_selecting_file_title)

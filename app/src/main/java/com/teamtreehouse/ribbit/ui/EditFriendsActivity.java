@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +26,7 @@ import com.teamtreehouse.ribbit.models.User;
 
 import java.util.List;
 
-public class EditFriendsActivity extends Activity {
+public class EditFriendsActivity extends AppCompatActivity {
 
     protected ParseRelation<ParseUser> mFriendsRelation;
     protected ParseUser mCurrentUser;
@@ -110,7 +111,7 @@ public class EditFriendsActivity extends Activity {
      */
     private void setupActionBar() {
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 

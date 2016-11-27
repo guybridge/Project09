@@ -1,10 +1,8 @@
 package com.teamtreehouse.ribbit.ui;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
@@ -43,6 +41,7 @@ public class InboxFragment extends ListFragment {
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
 
+
         mSwipeRefreshLayout.setColorSchemeResources(
                 R.color.swipeRefresh1,
                 R.color.swipeRefresh2,
@@ -73,22 +72,25 @@ public class InboxFragment extends ListFragment {
     private void retrieveMessages()
     {
         
-        Log.i(TAG, "Current user is: " + ParseUser.getCurrentUser());
+        Log.i(TAG, "Current user is: " + ParseUser.getCurrentUser().getUsername());
         ParseQuery<ParseObject> query = ParseQuery.getQuery(Constants.KEY_MESSAGES);
         query.whereEqualTo(Message.KEY_RECIPIENT_IDS, ParseUser.getCurrentUser().getObjectId());
         query.addDescendingOrder(Message.KEY_CREATED_AT);
 
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(List<ParseObject> messages, ParseException e) {
-                getActivity().setProgressBarIndeterminateVisibility(false);
+            public void done(List<ParseObject> messages, ParseException e)
+            {
 
-                if (mSwipeRefreshLayout.isRefreshing()) {
+                if (mSwipeRefreshLayout.isRefreshing())
+                {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
 
-                if (e == null) {
+                if (e == null)
+                {
                     // We found messages!
+                    Log.i(TAG, "We found " + messages.size() + " messages");
                     mMessages = messages;
 
                     String[] usernames = new String[mMessages.size()];
@@ -100,11 +102,14 @@ public class InboxFragment extends ListFragment {
                     }
                     if (getListView().getAdapter() == null)
                     {
+                        Log.i(TAG, "Adapter is null, creating a new adapter");
                         MessageAdapter adapter = new MessageAdapter(getListView().getContext(), mMessages);
                         setListAdapter(adapter);
                     } else {
                         // refill the adapter!
-                        ((MessageAdapter) getListView().getAdapter()).refill(mMessages);
+                        Log.i(TAG, "Refilling adapter");
+                        MessageAdapter adapter = new MessageAdapter(getListView().getContext(), mMessages);
+                        setListAdapter(adapter);
                     }
                 }
             }
@@ -121,7 +126,8 @@ public class InboxFragment extends ListFragment {
 
         String fileUri = file.getUrl();
 
-        if (messageType.equals(Message.TYPE_IMAGE)) {
+        if (messageType.equals(Message.TYPE_IMAGE))
+        {
             // view the image
             Intent intent = new Intent(getActivity(), ViewImageActivity.class);
             intent.setData(Uri.parse(fileUri));
@@ -135,20 +141,23 @@ public class InboxFragment extends ListFragment {
         }
 
         // Delete it!
+        //deleteMessage(message);
+    }
+
+    private void deleteMessage(ParseObject message)
+    {
         List<String> ids = message.getList(Message.KEY_RECIPIENT_IDS);
 
         if (ids.size() == 1) {
             // last recipient - delete the whole thing!
             message.deleteInBackground();
         }
-        else {
+        else
+        {
             // remove the recipient
             message.remove(ParseUser.getCurrentUser().getObjectId());
         }
     }
-
-
-
 
 
     protected OnRefreshListener mOnRefreshListener = new OnRefreshListener() {

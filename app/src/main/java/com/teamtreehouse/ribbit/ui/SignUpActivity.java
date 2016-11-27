@@ -1,10 +1,10 @@
 package com.teamtreehouse.ribbit.ui;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -15,7 +15,8 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.teamtreehouse.ribbit.R;
 
-public class SignUpActivity extends Activity {
+public class SignUpActivity extends AppCompatActivity
+{
 
     protected EditText mUsername;
     protected EditText mPassword;
@@ -29,7 +30,7 @@ public class SignUpActivity extends Activity {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_sign_up);
 
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
         mUsername = (EditText) findViewById(R.id.usernameField);
