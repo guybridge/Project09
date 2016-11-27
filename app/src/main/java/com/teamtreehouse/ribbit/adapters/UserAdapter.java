@@ -22,13 +22,16 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
     protected Context mContext;
     protected List<ParseUser> mUsers;
 
-    public UserAdapter(Context context, List<ParseUser> users) {
+    public UserAdapter(Context context, List<ParseUser> users)
+    {
         super(context, R.layout.message_item, users);
         mContext = context;
 
         // Create a full copy of mUsers
         mUsers = new ArrayList<ParseUser>();
-        for (ParseUser user : users) {
+
+        for (ParseUser user : users)
+        {
             mUsers.add(user);
         }
     }
@@ -42,14 +45,17 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
 
-        if (convertView == null) {
+        if (convertView == null)
+        {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.user_item, null);
             holder = new ViewHolder();
             holder.userImageView = (ImageView) convertView.findViewById(R.id.userImageView);
             holder.nameLabel = (TextView) convertView.findViewById(R.id.nameLabel);
             holder.checkImageView = (ImageView) convertView.findViewById(R.id.checkImageView);
             convertView.setTag(holder);
-        } else {
+        }
+        else
+        {
             holder = (ViewHolder) convertView.getTag();
         }
 
@@ -58,7 +64,9 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
 
         if (email == null || email.equals("")) {
             holder.userImageView.setImageResource(R.drawable.avatar_empty);
-        } else {
+        }
+        else
+        {
             email = email.toLowerCase();
             String hash = MD5Util.md5Hex(email);
             String gravatarUrl = "http://www.gravatar.com/avatar/" + hash +

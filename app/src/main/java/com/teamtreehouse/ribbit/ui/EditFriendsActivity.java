@@ -13,10 +13,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
@@ -76,19 +74,25 @@ public class EditFriendsActivity extends Activity {
                     mUsers = users;
                     String[] usernames = new String[mUsers.size()];
                     int i = 0;
-                    for (ParseUser user : mUsers) {
+                    for (ParseUser user : mUsers)
+                    {
                         usernames[i] = user.getUsername();
                         i++;
                     }
-                    if (mGridView.getAdapter() == null) {
+                    if (mGridView.getAdapter() == null)
+                    {
                         UserAdapter adapter = new UserAdapter(EditFriendsActivity.this, mUsers);
                         mGridView.setAdapter(adapter);
-                    } else {
+                    }
+                    else
+                    {
                         ((UserAdapter) mGridView.getAdapter()).refill(mUsers);
                     }
 
                     addFriendCheckmarks();
-                } else {
+                }
+                else
+                {
                     Log.e(TAG, e.getMessage());
                     AlertDialog.Builder builder = new AlertDialog.Builder(EditFriendsActivity.this);
                     builder.setMessage(e.getMessage())
@@ -152,27 +156,37 @@ public class EditFriendsActivity extends Activity {
         });
     }
 
-    protected OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
+    protected OnItemClickListener mOnItemClickListener = new OnItemClickListener()
+    {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
             ImageView checkImageView = (ImageView) view.findViewById(R.id.checkImageView);
 
-            if (mGridView.isItemChecked(position)) {
+            // If the grid item is not checked, then add the user
+            if (mGridView.isItemChecked(position))
+            {
+                Log.i(TAG, "Adding user");
                 // add the friend
                 mFriendsRelation.add(mUsers.get(position));
-                checkImageView.setVisibility(View.INVISIBLE);
-            } else {
-                // remove the friend
-                mFriendsRelation.remove(mUsers.get(position));
                 checkImageView.setVisibility(View.VISIBLE);
             }
+            else
+            {
+                Log.i(TAG, "Removing user");
+                // remove the friend
+                mFriendsRelation.remove(mUsers.get(position));
+                checkImageView.setVisibility(View.INVISIBLE);
+            }
 
-            mCurrentUser.saveInBackground(new SaveCallback() {
+            mCurrentUser.saveInBackground(new SaveCallback()
+            {
                 @Override
-                public void done(ParseException e) {
-                    if (e != null) {
-                        Log.e(TAG, e.getMessage());
+                public void done(ParseException e)
+                {
+                    if (e != null)
+                    {
+                        Log.i(TAG, "Problem saving user as a friend " + e.getMessage());
                     }
                 }
             });
