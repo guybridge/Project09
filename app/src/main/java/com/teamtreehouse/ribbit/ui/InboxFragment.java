@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -40,12 +39,13 @@ public class InboxFragment extends ListFragment {
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
-        // Deprecated method - what should we call instead?
-        mSwipeRefreshLayout.setColorScheme(
+        
+        mSwipeRefreshLayout.setColorSchemeColors(
                 R.color.swipeRefresh1,
                 R.color.swipeRefresh2,
                 R.color.swipeRefresh3,
                 R.color.swipeRefresh4);
+
 
         if(ParseUser.getCurrentUser() != null)
         {
