@@ -296,10 +296,7 @@ public class MainActivity extends FragmentActivity implements
 
         switch (itemId) {
             case R.id.action_logout:
-                User.logOut();
-                // Clear cached user
-                UserHelper userHelper = new UserHelper(this);
-                userHelper.logout();
+                ParseUser.logOut();
                 navigateToLogin();
                 break;
             case R.id.action_edit_friends:
