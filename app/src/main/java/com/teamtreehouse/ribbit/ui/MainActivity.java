@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
 
+import com.parse.ParseUser;
 import com.teamtreehouse.ribbit.R;
 import com.teamtreehouse.ribbit.adapters.SectionsPagerAdapter;
 import com.teamtreehouse.ribbit.models.Message;
@@ -166,9 +167,11 @@ public class MainActivity extends FragmentActivity implements
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_main);
 
-        User currentUser = User.getCurrentUser();
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
         if (currentUser == null)
         {
+            Log.i(TAG, "Current user is: " + currentUser);
             navigateToLogin();
         }
         else
@@ -276,7 +279,7 @@ public class MainActivity extends FragmentActivity implements
 
     private void navigateToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
-        // change this intent so that the user can't hit "back" and get into the inbox
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 

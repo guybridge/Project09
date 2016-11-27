@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.teamtreehouse.ribbit.R;
 import com.teamtreehouse.ribbit.models.callbacks.LogInCallback;
 import com.teamtreehouse.ribbit.models.User;
@@ -21,8 +23,6 @@ public class LoginActivity extends Activity {
     protected EditText mUsername;
     protected EditText mPassword;
     protected Button mLoginButton;
-    protected UserHelper userHelper;
-
     protected TextView mSignUpTextView;
 
     @Override
@@ -30,8 +30,6 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_login);
-
-        userHelper = new UserHelper(this);
 
         ActionBar actionBar = getActionBar();
         actionBar.hide();
@@ -68,20 +66,23 @@ public class LoginActivity extends Activity {
                     // Login
                     setProgressBarIndeterminateVisibility(true);
 
-                    User.logInInBackground(username, password, new LogInCallback() {
+
+                    ParseUser.logInInBackground(username, password, new com.parse.LogInCallback() {
                         @Override
-                        public void done(User user, Exception e) {
+                        public void done(ParseUser user, ParseException e) {
                             setProgressBarIndeterminateVisibility(false);
 
-                            if (e == null) {
+                            if (e == null)
+                            {
                                 // Success!
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 // Cache the successful login
-                                userHelper.cacheLogin(user);
                                 startActivity(intent);
-                            } else {
+                            }
+                            else
+                            {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                 builder.setMessage(e.getMessage())
                                         .setTitle(R.string.login_error_title)

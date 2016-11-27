@@ -10,9 +10,10 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 import com.teamtreehouse.ribbit.R;
-import com.teamtreehouse.ribbit.models.callbacks.SignUpCallback;
-import com.teamtreehouse.ribbit.models.User;
 
 public class SignUpActivity extends Activity {
 
@@ -67,13 +68,14 @@ public class SignUpActivity extends Activity {
                     // create the new user!
                     setProgressBarIndeterminateVisibility(true);
 
-                    User newUser = new User();
+                    ParseUser newUser = new ParseUser();
                     newUser.setUsername(username);
                     newUser.setPassword(password);
                     newUser.setEmail(email);
+
                     newUser.signUpInBackground(new SignUpCallback() {
                         @Override
-                        public void done(Exception e) {
+                        public void done(ParseException e) {
                             setProgressBarIndeterminateVisibility(false);
 
                             if (e == null) {
