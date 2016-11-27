@@ -65,15 +65,22 @@ public class FriendsFragment extends Fragment {
 
                     String[] usernames = new String[mFriends.size()];
                     int i = 0;
-                    for (ParseUser user : mFriends) {
+                    for (ParseUser user : mFriends)
+                    {
                         usernames[i] = user.getUsername();
+                        Log.i(TAG, "Friend: " + usernames[i]);
                         i++;
                     }
-                    if (mGridView.getAdapter() == null) {
+                    if (mGridView.getAdapter() == null)
+                    {
                         UserAdapter adapter = new UserAdapter(getActivity(), mFriends);
                         mGridView.setAdapter(adapter);
-                    } else {
-                        ((UserAdapter) mGridView.getAdapter()).refill(mFriends);
+                    }
+                    else
+                    {
+                        //((UserAdapter) mGridView.getAdapter()).refill(mFriends);
+                        UserAdapter adapter = new UserAdapter(getActivity(), mFriends);
+                        mGridView.setAdapter(adapter);
                     }
                 } else {
                     Log.e(TAG, e.getMessage());
