@@ -60,11 +60,14 @@ public class MainActivity extends AppCompatActivity implements
                         case 0: // Take picture
                             Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
-                            if (mMediaUri == null) {
+                            if (mMediaUri == null)
+                            {
                                 // display an error
                                 Toast.makeText(MainActivity.this, R.string.error_external_storage,
                                         Toast.LENGTH_LONG).show();
-                            } else {
+                            }
+                            else
+                            {
                                 takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
                                 startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
                             }
@@ -100,7 +103,9 @@ public class MainActivity extends AppCompatActivity implements
                 private Uri getOutputMediaFileUri(int mediaType) {
                     // To be safe, you should check that the SDCard is mounted
                     // using Environment.getExternalStorageState() before doing this.
-                    if (isExternalStorageAvailable()) {
+                    if (isExternalStorageAvailable())
+                    {
+                        Log.i(TAG, "external storage is available");
                         // get the URI
 
                         // 1. Get the external storage directory
@@ -139,12 +144,16 @@ public class MainActivity extends AppCompatActivity implements
                     return null;
                 }
 
-                private boolean isExternalStorageAvailable() {
+                private boolean isExternalStorageAvailable()
+                {
                     String state = Environment.getExternalStorageState();
 
-                    if (!state.equals(Environment.MEDIA_MOUNTED)) {
+                    if (state.equals(Environment.MEDIA_MOUNTED))
+                    {
                         return true;
-                    } else {
+                    }
+                    else
+                    {
                         return false;
                     }
                 }
@@ -225,7 +234,8 @@ public class MainActivity extends AppCompatActivity implements
     {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK)
+        {
             if (requestCode == PICK_PHOTO_REQUEST || requestCode == PICK_VIDEO_REQUEST) {
                 if (data == null) {
                     Toast.makeText(this, getString(R.string.general_error), Toast.LENGTH_LONG).show();

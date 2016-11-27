@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,7 +37,7 @@ import com.teamtreehouse.ribbit.utils.FileHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecipientsActivity extends Activity {
+public class RecipientsActivity extends AppCompatActivity {
 
     public static final String TAG = RecipientsActivity.class.getSimpleName();
 
@@ -119,7 +120,7 @@ public class RecipientsActivity extends Activity {
      */
     private void setupActionBar() {
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -165,7 +166,8 @@ public class RecipientsActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected Message createMessage() {
+    protected Message createMessage()
+    {
         Message message = new Message(Message.class.getSimpleName());
         message.put(Message.KEY_SENDER_ID, User.getCurrentUser().getObjectId());
         message.put(Message.KEY_SENDER_NAME, User.getCurrentUser().getUsername());
@@ -223,7 +225,8 @@ public class RecipientsActivity extends Activity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
-            if (mGridView.getCheckedItemCount() > 0) {
+            if
+                    (mGridView.getCheckedItemCount() > 0) {
                 mSendMenuItem.setVisible(true);
             } else {
                 mSendMenuItem.setVisible(false);

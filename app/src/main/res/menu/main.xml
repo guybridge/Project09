@@ -2,10 +2,6 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_camera"
-        android:title="@string/menu_camera_label">
-    </item>
-    <item
         android:id="@+id/action_edit_friends"
         android:title="@string/menu_edit_friends_label">
     </item>
