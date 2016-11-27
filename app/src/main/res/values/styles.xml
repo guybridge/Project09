@@ -15,11 +15,13 @@
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
+
+         <style name="Theme.Ribbit" parent="@android:style/Theme.Holo.Light">
 -->
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Theme.Ribbit" parent="@android:style/Theme.Holo.Light">
+    <style name="Theme.Ribbit" parent="Theme.AppCompat.Light">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_ribbit</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Ribbit</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Ribbit</item>

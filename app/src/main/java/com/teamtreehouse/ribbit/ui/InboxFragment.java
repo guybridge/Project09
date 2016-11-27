@@ -1,8 +1,10 @@
 package com.teamtreehouse.ribbit.ui;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
@@ -31,6 +33,7 @@ public class InboxFragment extends ListFragment {
     protected List<ParseObject> mMessages;
     protected SwipeRefreshLayout mSwipeRefreshLayout;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,8 +42,8 @@ public class InboxFragment extends ListFragment {
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
-        
-        mSwipeRefreshLayout.setColorSchemeColors(
+
+        mSwipeRefreshLayout.setColorSchemeResources(
                 R.color.swipeRefresh1,
                 R.color.swipeRefresh2,
                 R.color.swipeRefresh3,
@@ -143,6 +146,10 @@ public class InboxFragment extends ListFragment {
             message.remove(ParseUser.getCurrentUser().getObjectId());
         }
     }
+
+
+
+
 
     protected OnRefreshListener mOnRefreshListener = new OnRefreshListener() {
         @Override
