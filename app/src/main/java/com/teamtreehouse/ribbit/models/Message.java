@@ -1,6 +1,7 @@
 package com.teamtreehouse.ribbit.models;
 
 
+import com.parse.ParseUser;
 import com.teamtreehouse.ribbit.mockdata.MockMessages;
 import com.teamtreehouse.ribbit.models.callbacks.SaveCallback;
 
@@ -86,7 +87,7 @@ public class Message implements Comparable<Message> {
 
     public static Query<Message> getQuery() {
         Query<Message> query = new Query<Message>(Message.class.getSimpleName());
-        query.setDataSet(MockMessages.getInstance().getMessagesForUser(User.getCurrentUser().getObjectId()));
+        query.setDataSet(MockMessages.getInstance().getMessagesForUser(ParseUser.getCurrentUser().getObjectId()));
         return query;
     }
 }

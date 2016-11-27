@@ -12,20 +12,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.teamtreehouse.ribbit.R;
 import com.teamtreehouse.ribbit.adapters.MessageAdapter;
 import com.teamtreehouse.ribbit.models.Message;
-import com.teamtreehouse.ribbit.models.MessageFile;
-import com.teamtreehouse.ribbit.models.Query;
-import com.teamtreehouse.ribbit.models.User;
-import com.teamtreehouse.ribbit.models.callbacks.FindCallback;
+
+import com.teamtreehouse.ribbit.utils.Constants;
 
 import java.util.List;
 
 public class InboxFragment extends ListFragment {
 
     private static final String TAG = InboxFragment.class.getSimpleName();
-    protected List<Message> mMessages;
+    protected List<ParseObject> mMessages;
     protected SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
@@ -43,7 +47,15 @@ public class InboxFragment extends ListFragment {
                 R.color.swipeRefresh3,
                 R.color.swipeRefresh4);
 
-        retrieveMessages();
+        if(ParseUser.getCurrentUser() != null)
+        {
+            retrieveMessages();
+        }
+        else
+        {
+            Log.i(TAG, "Current user is null");
+        }
+
 
         return rootView;
     }
@@ -58,13 +70,14 @@ public class InboxFragment extends ListFragment {
     private void retrieveMessages()
     {
         
-        Log.i(TAG, "Current user is: " + User.getCurrentUser());
-        Query<Message> query = Message.getQuery();
-        query.whereEqualTo(Message.KEY_RECIPIENT_IDS, User.getCurrentUser().getObjectId());
+        Log.i(TAG, "Current user is: " + ParseUser.getCurrentUser());
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(Constants.KEY_MESSAGES);
+        query.whereEqualTo(Message.KEY_RECIPIENT_IDS, ParseUser.getCurrentUser().getObjectId());
         query.addDescendingOrder(Message.KEY_CREATED_AT);
-        query.findInBackground(new FindCallback<Message>() {
+
+        query.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(List<Message> messages, Exception e) {
+            public void done(List<ParseObject> messages, ParseException e) {
                 getActivity().setProgressBarIndeterminateVisibility(false);
 
                 if (mSwipeRefreshLayout.isRefreshing()) {
@@ -77,14 +90,14 @@ public class InboxFragment extends ListFragment {
 
                     String[] usernames = new String[mMessages.size()];
                     int i = 0;
-                    for (Message message : mMessages) {
+                    for (ParseObject message : mMessages)
+                    {
                         usernames[i] = message.getString(Message.KEY_SENDER_NAME);
                         i++;
                     }
-                    if (getListView().getAdapter() == null) {
-                        MessageAdapter adapter = new MessageAdapter(
-                                getListView().getContext(),
-                                mMessages);
+                    if (getListView().getAdapter() == null)
+                    {
+                        MessageAdapter adapter = new MessageAdapter(getListView().getContext(), mMessages);
                         setListAdapter(adapter);
                     } else {
                         // refill the adapter!
@@ -99,20 +112,22 @@ public class InboxFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        Message message = mMessages.get(position);
+        ParseObject message = mMessages.get(position);
         String messageType = message.getString(Message.KEY_FILE_TYPE);
-        MessageFile file = message.getFile(Message.KEY_FILE);
-        Uri fileUri = file.getUri();
+        ParseFile file = message.getParseFile(Message.KEY_FILE);
+
+        String fileUri = file.getUrl();
 
         if (messageType.equals(Message.TYPE_IMAGE)) {
             // view the image
             Intent intent = new Intent(getActivity(), ViewImageActivity.class);
-            intent.setData(fileUri);
+            intent.setData(Uri.parse(fileUri));
             startActivity(intent);
-        } else {
+        }
+        else {
             // view the video
-            Intent intent = new Intent(Intent.ACTION_VIEW, fileUri);
-            intent.setDataAndType(fileUri, "video/*");
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(fileUri));
+            intent.setDataAndType(Uri.parse(fileUri), "video/*");
             startActivity(intent);
         }
 
@@ -125,7 +140,7 @@ public class InboxFragment extends ListFragment {
         }
         else {
             // remove the recipient
-            message.removeRecipient(User.getCurrentUser().getObjectId());
+            message.remove(ParseUser.getCurrentUser().getObjectId());
         }
     }
 

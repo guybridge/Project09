@@ -9,26 +9,26 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 import com.teamtreehouse.ribbit.R;
-import com.teamtreehouse.ribbit.models.User;
 import com.teamtreehouse.ribbit.utils.MD5Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserAdapter extends ArrayAdapter<User> {
+public class UserAdapter extends ArrayAdapter<ParseUser> {
 
     protected Context mContext;
-    protected List<User> mUsers;
+    protected List<ParseUser> mUsers;
 
-    public UserAdapter(Context context, List<User> users) {
+    public UserAdapter(Context context, List<ParseUser> users) {
         super(context, R.layout.message_item, users);
         mContext = context;
 
         // Create a full copy of mUsers
-        mUsers = new ArrayList<User>();
-        for (User user : users) {
+        mUsers = new ArrayList<ParseUser>();
+        for (ParseUser user : users) {
             mUsers.add(user);
         }
     }
@@ -53,7 +53,7 @@ public class UserAdapter extends ArrayAdapter<User> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        User user = mUsers.get(position);
+        ParseUser user = mUsers.get(position);
         String email = user.getEmail();
 
         if (email == null || email.equals("")) {
@@ -87,7 +87,7 @@ public class UserAdapter extends ArrayAdapter<User> {
         TextView nameLabel;
     }
 
-    public void refill(List<User> users) {
+    public void refill(List<ParseUser> users) {
         mUsers.addAll(users);
         notifyDataSetChanged();
     }

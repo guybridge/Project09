@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
 import com.teamtreehouse.ribbit.R;
 import com.teamtreehouse.ribbit.adapters.UserAdapter;
-import com.teamtreehouse.ribbit.models.Query;
-import com.teamtreehouse.ribbit.models.Relation;
-import com.teamtreehouse.ribbit.models.User;
-import com.teamtreehouse.ribbit.models.callbacks.FindCallback;
+import com.teamtreehouse.ribbit.models.User;;
 
 import java.util.List;
 
@@ -23,9 +25,9 @@ public class FriendsFragment extends Fragment {
 
     public static final String TAG = FriendsFragment.class.getSimpleName();
 
-    protected Relation<User> mFriendsRelation;
-    protected User mCurrentUser;
-    protected List<User> mFriends;
+    protected ParseRelation<ParseUser> mFriendsRelation;
+    protected ParseUser mCurrentUser;
+    protected List<ParseUser> mFriends;
     protected GridView mGridView;
 
     @Override
@@ -46,17 +48,17 @@ public class FriendsFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        mCurrentUser = User.getCurrentUser();
+        mCurrentUser = ParseUser.getCurrentUser();
         mFriendsRelation = mCurrentUser.getRelation(User.KEY_FRIENDS_RELATION);
 
         getActivity().setProgressBarIndeterminateVisibility(true);
 
 
-        Query<User> query = mFriendsRelation.getQuery();
+        ParseQuery<ParseUser> query = mFriendsRelation.getQuery();
         query.addAscendingOrder(User.KEY_USER_ID);
-        query.findInBackground(new FindCallback<User>() {
+        query.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<User> friends, Exception e) {
+            public void done(List<ParseUser> friends, ParseException e) {
                 getActivity().setProgressBarIndeterminateVisibility(false);
 
                 if (e == null) {
@@ -64,7 +66,7 @@ public class FriendsFragment extends Fragment {
 
                     String[] usernames = new String[mFriends.size()];
                     int i = 0;
-                    for (User user : mFriends) {
+                    for (ParseUser user : mFriends) {
                         usernames[i] = user.getUsername();
                         i++;
                     }

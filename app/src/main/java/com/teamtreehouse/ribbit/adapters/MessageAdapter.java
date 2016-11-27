@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.ParseObject;
 import com.teamtreehouse.ribbit.R;
 import com.teamtreehouse.ribbit.models.Message;
 
@@ -17,20 +18,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MessageAdapter extends ArrayAdapter<Message> {
+public class MessageAdapter extends ArrayAdapter<ParseObject> {
 
     private static final String TAG = MessageAdapter.class.getSimpleName();
     protected Context mContext;
-    protected List<Message> mMessages;
+    protected List<ParseObject> mMessages;
 
-    public MessageAdapter(Context context, List<Message> messages) {
+    public MessageAdapter(Context context, List<ParseObject> messages) {
         super(context, R.layout.message_item, messages);
         mContext = context;
 
         // Create a full copy of mMessages
-        mMessages = new ArrayList<Message>();
-        for (Message msg : messages) {
+        mMessages = new ArrayList<ParseObject>();
+
+        for (ParseObject msg : messages)
+        {
             mMessages.add(msg);
+
         }
     }
 
@@ -52,7 +56,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Message message = mMessages.get(position);
+        ParseObject message = mMessages.get(position);
 
         Date createdAt = message.getCreatedAt();
         long now = new Date().getTime();
@@ -112,7 +116,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         TextView timeLabel;
     }
 
-    public void refill(List<Message> messages) {
+    public void refill(List<ParseObject> messages) {
         mMessages.clear();
         mMessages.addAll(messages);
         notifyDataSetChanged();

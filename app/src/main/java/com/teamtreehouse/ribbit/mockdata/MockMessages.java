@@ -3,6 +3,7 @@ package com.teamtreehouse.ribbit.mockdata;
 import android.net.Uri;
 import android.util.Log;
 
+import com.parse.ParseUser;
 import com.teamtreehouse.ribbit.R;
 import com.teamtreehouse.ribbit.RibbitApplication;
 import com.teamtreehouse.ribbit.models.Message;
@@ -76,7 +77,7 @@ public class MockMessages {
 
         ArrayList<String> recipientIds = new ArrayList<>();
 
-        recipientIds.add(User.getCurrentUser().getObjectId());
+        recipientIds.add(ParseUser.getCurrentUser().getObjectId());
         photoMessage.put(Message.KEY_RECIPIENT_IDS, recipientIds);
 
         photoMessage.put(Message.KEY_FILE_TYPE, Message.TYPE_IMAGE);

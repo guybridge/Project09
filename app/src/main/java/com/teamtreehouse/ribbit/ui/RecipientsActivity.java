@@ -18,15 +18,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.teamtreehouse.ribbit.R;
 import com.teamtreehouse.ribbit.adapters.UserAdapter;
 import com.teamtreehouse.ribbit.models.Message;
 import com.teamtreehouse.ribbit.models.MessageFile;
-import com.teamtreehouse.ribbit.models.Query;
-import com.teamtreehouse.ribbit.models.Relation;
 import com.teamtreehouse.ribbit.models.User;
-import com.teamtreehouse.ribbit.models.callbacks.FindCallback;
-import com.teamtreehouse.ribbit.models.callbacks.SaveCallback;
+import com.teamtreehouse.ribbit.utils.Constants;
 import com.teamtreehouse.ribbit.utils.FileHelper;
 
 import java.util.ArrayList;
@@ -36,9 +40,9 @@ public class RecipientsActivity extends Activity {
 
     public static final String TAG = RecipientsActivity.class.getSimpleName();
 
-    protected Relation<User> mFriendsRelation;
-    protected User mCurrentUser;
-    protected List<User> mFriends;
+    protected ParseRelation<ParseUser> mFriendsRelation;
+    protected ParseUser mCurrentUser;
+    protected List<ParseUser> mFriends;
     protected MenuItem mSendMenuItem;
     protected Uri mMediaUri;
     protected String mFileType;
@@ -67,24 +71,26 @@ public class RecipientsActivity extends Activity {
     public void onResume() {
         super.onResume();
 
-        mCurrentUser = User.getCurrentUser();
+        mCurrentUser = ParseUser.getCurrentUser();
         mFriendsRelation = mCurrentUser.getRelation(User.KEY_FRIENDS_RELATION);
 
         setProgressBarIndeterminateVisibility(true);
 
-        Query<User> query = mFriendsRelation.getQuery();
+        ParseQuery<ParseUser> query = mFriendsRelation.getQuery();
         query.addAscendingOrder(User.KEY_USERNAME);
-        query.findInBackground(new FindCallback<User>() {
+
+        query.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<User> friends, Exception e) {
+            public void done(List<ParseUser> friends, ParseException e) {
                 setProgressBarIndeterminateVisibility(false);
 
-                if (e == null) {
+                if (e == null)
+                {
                     mFriends = friends;
 
                     String[] usernames = new String[mFriends.size()];
                     int i = 0;
-                    for (User user : mFriends) {
+                    for (ParseUser user : mFriends) {
                         usernames[i] = user.getUsername();
                         i++;
                     }
@@ -139,8 +145,9 @@ public class RecipientsActivity extends Activity {
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             case R.id.action_send:
-                Message message = createMessage();
-                if (message == null) {
+                ParseObject message = new ParseObject(Constants.KEY_MESSAGES);
+                if (message == null)
+                {
                     // error
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage(R.string.error_selecting_file)
@@ -148,7 +155,8 @@ public class RecipientsActivity extends Activity {
                             .setPositiveButton(android.R.string.ok, null);
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                } else {
+                } else
+                {
                     send(message);
                     finish();
                 }
@@ -191,11 +199,12 @@ public class RecipientsActivity extends Activity {
         return recipientIds;
     }
 
-    protected void send(Message message) {
+    protected void send(ParseObject message) {
         message.saveInBackground(new SaveCallback() {
             @Override
-            public void done(Exception e) {
-                if (e == null) {
+            public void done(ParseException e) {
+                if (e == null)
+                {
                     // success!
                     Toast.makeText(RecipientsActivity.this, R.string.success_message, Toast.LENGTH_LONG).show();
                 } else {

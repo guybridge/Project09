@@ -14,25 +14,28 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.teamtreehouse.ribbit.R;
 import com.teamtreehouse.ribbit.adapters.UserAdapter;
-import com.teamtreehouse.ribbit.models.Query;
-import com.teamtreehouse.ribbit.models.Relation;
 import com.teamtreehouse.ribbit.models.User;
-import com.teamtreehouse.ribbit.models.callbacks.FindCallback;
-import com.teamtreehouse.ribbit.models.callbacks.SaveCallback;
 
 import java.util.List;
 
 public class EditFriendsActivity extends Activity {
 
-    protected Relation<User> mFriendsRelation;
-    protected User mCurrentUser;
+    protected ParseRelation<ParseUser> mFriendsRelation;
+    protected ParseUser mCurrentUser;
     protected GridView mGridView;
 
     public static final String TAG = EditFriendsActivity.class.getSimpleName();
 
-    protected List<User> mUsers;
+    protected List<ParseUser> mUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,25 +57,26 @@ public class EditFriendsActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-        mCurrentUser = User.getCurrentUser();
+        mCurrentUser = ParseUser.getCurrentUser();
         mFriendsRelation = mCurrentUser.getRelation(User.KEY_FRIENDS_RELATION);
 
         setProgressBarIndeterminateVisibility(true);
 
-        Query<User> query = User.getQuery();
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.orderByAscending(User.KEY_USERNAME);
         query.setLimit(1000);
-        query.findInBackground(new FindCallback<User>() {
+        query.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<User> users, Exception e) {
+            public void done(List<ParseUser> users, ParseException e) {
                 setProgressBarIndeterminateVisibility(false);
 
-                if (e == null) {
+                if (e == null)
+                {
                     // Success
                     mUsers = users;
                     String[] usernames = new String[mUsers.size()];
                     int i = 0;
-                    for (User user : mUsers) {
+                    for (ParseUser user : mUsers) {
                         usernames[i] = user.getUsername();
                         i++;
                     }
@@ -124,21 +128,24 @@ public class EditFriendsActivity extends Activity {
     }
 
     private void addFriendCheckmarks() {
-        mFriendsRelation.getQuery().findInBackground(new FindCallback<User>() {
+        mFriendsRelation.getQuery().findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<User> friends, Exception e) {
+            public void done(List<ParseUser> friends, ParseException e)
+            {
                 if (e == null) {
                     // list returned - look for a match
                     for (int i = 0; i < mUsers.size(); i++) {
-                        User user = mUsers.get(i);
+                        ParseUser user = mUsers.get(i);
 
-                        for (User friend : friends) {
+                        for (ParseUser friend : friends) {
                             if (friend.getObjectId().equals(user.getObjectId())) {
                                 mGridView.setItemChecked(i, true);
                             }
                         }
                     }
-                } else {
+                }
+                else
+                {
                     Log.e(TAG, e.getMessage());
                 }
             }
@@ -163,7 +170,7 @@ public class EditFriendsActivity extends Activity {
 
             mCurrentUser.saveInBackground(new SaveCallback() {
                 @Override
-                public void done(Exception e) {
+                public void done(ParseException e) {
                     if (e != null) {
                         Log.e(TAG, e.getMessage());
                     }
