@@ -1,6 +1,7 @@
 package com.teamtreehouse.ribbit.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.util.List;
 
 public class MessageAdapter extends ArrayAdapter<Message> {
 
+    private static final String TAG = MessageAdapter.class.getSimpleName();
     protected Context mContext;
     protected List<Message> mMessages;
 
@@ -33,16 +35,20 @@ public class MessageAdapter extends ArrayAdapter<Message> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
         ViewHolder holder;
 
-        if (convertView == null) {
+        if (convertView == null)
+        {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.message_item, null);
             holder = new ViewHolder();
             holder.iconImageView = (ImageView) convertView.findViewById(R.id.messageIcon);
             holder.nameLabel = (TextView) convertView.findViewById(R.id.senderLabel);
             holder.timeLabel = (TextView) convertView.findViewById(R.id.timeLabel);
-        } else {
+        }
+        else
+        {
             holder = (ViewHolder) convertView.getTag();
         }
 
@@ -53,14 +59,49 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d");
         String convertedDate = format.format(createdAt);
 
-        holder.timeLabel.setText(convertedDate);
-
-        if (message.getString(Message.KEY_FILE_TYPE).equals(Message.TYPE_IMAGE)) {
-            holder.iconImageView.setImageResource(R.drawable.ic_picture);
-        } else {
-            holder.iconImageView.setImageResource(R.drawable.ic_video);
+        try
+        {
+            holder.timeLabel.setText(convertedDate);
         }
-        holder.nameLabel.setText(message.getString(Message.KEY_SENDER_NAME));
+        catch(NullPointerException e)
+        {
+            Log.i(TAG, "Error setting time label " + e.getMessage());
+        }
+
+
+        if(message.getString(Message.KEY_FILE_TYPE).equals(Message.TYPE_IMAGE))
+        {
+            try
+            {
+                holder.iconImageView.setImageResource(R.drawable.ic_picture);
+            }
+            catch(NullPointerException e)
+            {
+                Log.i(TAG, "Error setting picture icon " + e.getMessage());
+            }
+        }
+        else
+        {
+            try
+            {
+                holder.iconImageView.setImageResource(R.drawable.ic_video);
+            }
+            catch(NullPointerException e)
+            {
+                Log.i(TAG, "Error setting video icon " + e.getMessage());
+            }
+
+        }
+
+        try
+        {
+            holder.nameLabel.setText(message.getString(Message.KEY_SENDER_NAME));
+        }
+        catch(NullPointerException e)
+        {
+            Log.i(TAG, "Error setting name label " + e.getMessage());
+        }
+
 
         return convertView;
     }

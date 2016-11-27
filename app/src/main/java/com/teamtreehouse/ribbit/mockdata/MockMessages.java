@@ -75,6 +75,7 @@ public class MockMessages {
         photoMessage.put(Message.KEY_SENDER_NAME, sender.getUsername());
 
         ArrayList<String> recipientIds = new ArrayList<>();
+
         recipientIds.add(User.getCurrentUser().getObjectId());
         photoMessage.put(Message.KEY_RECIPIENT_IDS, recipientIds);
 

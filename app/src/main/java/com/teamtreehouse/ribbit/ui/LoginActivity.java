@@ -14,12 +14,14 @@ import android.widget.TextView;
 import com.teamtreehouse.ribbit.R;
 import com.teamtreehouse.ribbit.models.callbacks.LogInCallback;
 import com.teamtreehouse.ribbit.models.User;
+import com.teamtreehouse.ribbit.utils.UserHelper;
 
 public class LoginActivity extends Activity {
 
     protected EditText mUsername;
     protected EditText mPassword;
     protected Button mLoginButton;
+    protected UserHelper userHelper;
 
     protected TextView mSignUpTextView;
 
@@ -28,6 +30,8 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_login);
+
+        userHelper = new UserHelper(this);
 
         ActionBar actionBar = getActionBar();
         actionBar.hide();
@@ -53,7 +57,7 @@ public class LoginActivity extends Activity {
                 username = username.trim();
                 password = password.trim();
 
-                if (username.isEmpty()) {
+                if (username.isEmpty() || password.isEmpty()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                     builder.setMessage(R.string.login_error_message)
                             .setTitle(R.string.login_error_title)
@@ -74,6 +78,8 @@ public class LoginActivity extends Activity {
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                // Cache the successful login
+                                userHelper.cacheLogin(user);
                                 startActivity(intent);
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);

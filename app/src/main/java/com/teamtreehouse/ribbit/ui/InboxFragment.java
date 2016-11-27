@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import java.util.List;
 
 public class InboxFragment extends ListFragment {
 
+    private static final String TAG = InboxFragment.class.getSimpleName();
     protected List<Message> mMessages;
     protected SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -41,7 +43,7 @@ public class InboxFragment extends ListFragment {
                 R.color.swipeRefresh3,
                 R.color.swipeRefresh4);
 
-        //retrieveMessages();
+        retrieveMessages();
 
         return rootView;
     }
@@ -53,7 +55,10 @@ public class InboxFragment extends ListFragment {
         getActivity().setProgressBarIndeterminateVisibility(true);
     }
 
-    private void retrieveMessages() {
+    private void retrieveMessages()
+    {
+        
+        Log.i(TAG, "Current user is: " + User.getCurrentUser());
         Query<Message> query = Message.getQuery();
         query.whereEqualTo(Message.KEY_RECIPIENT_IDS, User.getCurrentUser().getObjectId());
         query.addDescendingOrder(Message.KEY_CREATED_AT);

@@ -21,6 +21,7 @@ import com.teamtreehouse.ribbit.R;
 import com.teamtreehouse.ribbit.adapters.SectionsPagerAdapter;
 import com.teamtreehouse.ribbit.models.Message;
 import com.teamtreehouse.ribbit.models.User;
+import com.teamtreehouse.ribbit.utils.UserHelper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -159,15 +160,19 @@ public class MainActivity extends FragmentActivity implements
     ViewPager mViewPager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_main);
 
         User currentUser = User.getCurrentUser();
-        if (currentUser == null) {
+        if (currentUser == null)
+        {
             navigateToLogin();
-        } else {
+        }
+        else
+        {
             Log.i(TAG, currentUser.getUsername());
         }
 
@@ -208,7 +213,8 @@ public class MainActivity extends FragmentActivity implements
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
@@ -288,6 +294,9 @@ public class MainActivity extends FragmentActivity implements
         switch (itemId) {
             case R.id.action_logout:
                 User.logOut();
+                // Clear cached user
+                UserHelper userHelper = new UserHelper(this);
+                userHelper.logout();
                 navigateToLogin();
                 break;
             case R.id.action_edit_friends:
