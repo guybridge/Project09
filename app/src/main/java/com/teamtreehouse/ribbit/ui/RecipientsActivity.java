@@ -1,7 +1,7 @@
 package com.teamtreehouse.ribbit.ui;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -52,6 +52,7 @@ public class RecipientsActivity extends AppCompatActivity {
     protected String mFileType;
     protected GridView mGridView;
     protected FloatingActionButton floatingActionButton;
+    protected String textMessageData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,9 @@ public class RecipientsActivity extends AppCompatActivity {
 
         mMediaUri = getIntent().getData();
         mFileType = getIntent().getExtras().getString(Message.KEY_FILE_TYPE);
+
+        textMessageData = getIntent().getStringExtra(Constants.KEY_TEXT_DATA);
+
     }
 
     @Override
@@ -198,24 +202,38 @@ public class RecipientsActivity extends AppCompatActivity {
         message.put(Message.KEY_RECIPIENT_IDS, getRecipientIds());
         message.put(Message.KEY_FILE_TYPE, mFileType);
 
-        byte[] fileBytes = FileHelper.getByteArrayFromFile(this, mMediaUri);
-
-        if (fileBytes == null) {
-            return null;
+        // Check if it's a text message
+        if(textMessageData != null)
+        {
+            Log.i(TAG, "Message is a text");
+            Log.i(TAG, "File type is: " + mFileType);
+            message.put(Constants.KEY_TEXT_DATA, textMessageData);
+            return message;
         }
         else
         {
-            if (mFileType.equals(Message.TYPE_IMAGE))
-            {
-                fileBytes = FileHelper.reduceImageForUpload(fileBytes);
+            Log.i(TAG, "Message is file");
+            byte[] fileBytes = FileHelper.getByteArrayFromFile(this, mMediaUri);
+
+            if (fileBytes == null) {
+                return null;
             }
+            else
+            {
+                if (mFileType.equals(Message.TYPE_IMAGE))
+                {
+                    fileBytes = FileHelper.reduceImageForUpload(fileBytes);
+                }
 
-            String fileName = FileHelper.getFileName(this, mMediaUri, mFileType);
-            ParseFile parseFile = new ParseFile(fileName, fileBytes);
-            message.put(Message.KEY_FILE, parseFile);
+                String fileName = FileHelper.getFileName(this, mMediaUri, mFileType);
+                ParseFile parseFile = new ParseFile(fileName, fileBytes);
+                message.put(Message.KEY_FILE, parseFile);
 
-            return message;
+                return message;
+            }
         }
+
+
     }
 
     protected ArrayList<String> getRecipientIds() {

@@ -35,7 +35,6 @@ public class WriteTextFragment extends DialogFragment
         super.onAttach(activity);
         callback = (callback) activity;
 
-
     }
 
     @Nullable
@@ -53,6 +52,7 @@ public class WriteTextFragment extends DialogFragment
             public void onClick(View view)
             {
                 callback.messageData(messageData.getText().toString());
+                dismiss();
             }
         });
 

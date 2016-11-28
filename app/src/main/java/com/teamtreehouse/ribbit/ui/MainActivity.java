@@ -26,6 +26,7 @@ import com.teamtreehouse.ribbit.R;
 import com.teamtreehouse.ribbit.adapters.SectionsPagerAdapter;
 import com.teamtreehouse.ribbit.models.Message;
 import com.teamtreehouse.ribbit.models.User;
+import com.teamtreehouse.ribbit.utils.Constants;
 import com.teamtreehouse.ribbit.utils.UserHelper;
 
 import java.io.File;
@@ -240,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        Log.i(TAG, "onActivityResult called");
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK)
@@ -355,12 +357,15 @@ public class MainActivity extends AppCompatActivity implements
     @Override // Result from dialog
     public void messageData(String data)
     {
-
+        Intent recipientsIntent = new Intent(this, RecipientsActivity.class);
+        recipientsIntent.putExtra(Constants.KEY_TEXT_DATA, data);
+        recipientsIntent.putExtra(Message.KEY_FILE_TYPE, Constants.KEY_TEXT_FILE_TYPE);
+        startActivity(recipientsIntent);
     }
 
     @Override
     public void onFail(String errorMessage)
     {
-
+        Log.i(TAG, "Failed to get text message data from fragment " + errorMessage);
     }
 }

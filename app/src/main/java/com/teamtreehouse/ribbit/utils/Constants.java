@@ -12,4 +12,6 @@ public class Constants
     public static final String KEY_PASSWORD = "PASSWORD";
     public static final String KEY_EMAIL = "EMAIL";
     public static final String KEY_MESSAGES = "MESSAGES";
+    public static final String KEY_TEXT_DATA = "TEXT_DATA";
+    public static final String KEY_TEXT_FILE_TYPE = "TEXT";
 }

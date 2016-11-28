@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.parse.ParseObject;
 import com.teamtreehouse.ribbit.R;
 import com.teamtreehouse.ribbit.models.Message;
+import com.teamtreehouse.ribbit.utils.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
                 Log.i(TAG, "Error setting picture icon " + e.getMessage());
             }
         }
-        else
+        else if(message.getString(Message.KEY_FILE_TYPE).equals(Message.TYPE_VIDEO))
         {
             try
             {
@@ -91,7 +92,17 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
             {
                 Log.i(TAG, "Error setting video icon " + e.getMessage());
             }
-
+        }
+        else if(message.getString(Message.KEY_FILE_TYPE).equals(Constants.KEY_TEXT_FILE_TYPE))
+        {
+            try
+            {
+                holder.iconImageView.setImageResource(R.drawable.ic_send_msg);
+            }
+            catch(NullPointerException e)
+            {
+                Log.i(TAG, "Error setting text message icon " + e.getMessage());
+            }
         }
 
         try

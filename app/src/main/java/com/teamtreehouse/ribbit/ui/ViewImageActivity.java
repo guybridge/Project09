@@ -1,25 +1,24 @@
 package com.teamtreehouse.ribbit.ui;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
 import com.teamtreehouse.ribbit.R;
+import com.teamtreehouse.ribbit.utils.Constants;
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ViewImageActivity extends AppCompatActivity
 {
 
     private TextView countDownTextView;
+    private TextView textMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +29,20 @@ public class ViewImageActivity extends AppCompatActivity
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
         countDownTextView = (TextView) findViewById(R.id.countDownText);
+        textMessage = (TextView) findViewById(R.id.textMessageTextView);
 
-        Uri imageUri = getIntent().getData();
-
-        Picasso.with(this).load(imageUri.toString()).into(imageView);
+        String textData = getIntent().getStringExtra(Constants.KEY_TEXT_DATA);
+        if(textData != null)
+        {
+            // We got a text, display
+            textMessage.setVisibility(View.VISIBLE);
+            textMessage.setText(textData);
+        }
+        else
+        {
+            Uri imageUri = getIntent().getData();
+            Picasso.with(this).load(imageUri.toString()).into(imageView);
+        }
 
         countDown();
     }
