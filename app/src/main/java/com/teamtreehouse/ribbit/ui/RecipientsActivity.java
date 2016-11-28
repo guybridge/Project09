@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -50,6 +51,7 @@ public class RecipientsActivity extends AppCompatActivity {
     protected Uri mMediaUri;
     protected String mFileType;
     protected GridView mGridView;
+    protected FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,18 @@ public class RecipientsActivity extends AppCompatActivity {
         mGridView = (GridView) findViewById(R.id.friendsGrid);
         mGridView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         mGridView.setOnItemClickListener(mOnItemClickListener);
+
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.fabSend);
+        floatingActionButton.setVisibility(View.INVISIBLE);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                sendMessage();
+            }
+        });
 
         TextView emptyTextView = (TextView) findViewById(android.R.id.empty);
         mGridView.setEmptyView(emptyTextView);
@@ -148,25 +162,32 @@ public class RecipientsActivity extends AppCompatActivity {
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             case R.id.action_send:
-                ParseObject message = createMessage();
-
-                if (message == null)
-                {
-                    // error
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage(R.string.error_selecting_file)
-                            .setTitle(R.string.error_selecting_file_title)
-                            .setPositiveButton(android.R.string.ok, null);
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                } else
-                {
-                    send(message);
-                    finish();
-                }
-                return true;
+                return sendMessage();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // Called within onClick
+    private boolean sendMessage()
+    {
+        ParseObject message = createMessage();
+
+        if (message == null)
+        {
+            // error
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.error_selecting_file)
+                    .setTitle(R.string.error_selecting_file_title)
+                    .setPositiveButton(android.R.string.ok, null);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        else
+        {
+            send(message);
+            finish();
+        }
+        return true;
     }
 
     protected ParseObject createMessage()
@@ -190,9 +211,6 @@ public class RecipientsActivity extends AppCompatActivity {
             }
 
             String fileName = FileHelper.getFileName(this, mMediaUri, mFileType);
-
-            MessageFile file = new MessageFile(fileName, fileBytes, mMediaUri);
-
             ParseFile parseFile = new ParseFile(fileName, fileBytes);
             message.put(Message.KEY_FILE, parseFile);
 
@@ -232,15 +250,18 @@ public class RecipientsActivity extends AppCompatActivity {
         });
     }
 
-    protected OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
+    protected OnItemClickListener mOnItemClickListener = new OnItemClickListener()
+    {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
             if
                     (mGridView.getCheckedItemCount() > 0) {
-                mSendMenuItem.setVisible(true);
-            } else {
-                mSendMenuItem.setVisible(false);
+                floatingActionButton.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                floatingActionButton.setVisibility(View.INVISIBLE);
             }
 
             ImageView checkImageView = (ImageView) view.findViewById(R.id.checkImageView);

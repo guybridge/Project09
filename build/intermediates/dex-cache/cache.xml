@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/guyb/git/Treehouse/Project09/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.3.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="debf30ce0a7560396b6235edef77e447006454c2">
+        <dex dex="/home/guyb/git/Treehouse/Project09/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-23.3.0_877acc029e49b516c8a7a7da19f96067f17413f7/classes.dex" />
+    </item>
+    <item
+        jar="/home/guyb/git/Treehouse/Project09/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.3.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="23be6993826b8fd88bbc8d14928bb3b8960d3d4e">
+        <dex dex="/home/guyb/git/Treehouse/Project09/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-23.3.0_7aa2a383f2fec2c3377c907dcd4687c735623c17/classes.dex" />
+    </item>
+    <item
+        jar="/home/guyb/git/Treehouse/Project09/app/build/intermediates/exploded-aar/com.android.support/design/23.3.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="f0001e71cea6ae432a00021c6f727f5ef0f3d27e">
+        <dex dex="/home/guyb/git/Treehouse/Project09/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-23.3.0_4b3cbbfbd381763c880a34576fdd2a6c895d710d/classes.dex" />
+    </item>
+    <item
+        jar="/home/guyb/git/Treehouse/Project09/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.3.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="a0b5d60246cd9d4f3f2443611b3b4c25265840b5">
+        <dex dex="/home/guyb/git/Treehouse/Project09/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-23.3.0_dd67ff426c75e4a196b233a02d657ba2c059e24b/classes.dex" />
+    </item>
+    <item
+        jar="/home/guyb/git/Treehouse/Project09/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="1b8e03daaa43fb0a4cd57e378167c2fd70454c1e">
+        <dex dex="/home/guyb/git/Treehouse/Project09/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-23.3.0_09c8e8ee1f3403bf4ab3e0b04530f5b380affceb/classes.dex" />
+    </item>
+    <item
+        jar="/home/guyb/git/Treehouse/Project09/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="b002d178b082f5edc89efcd9ca86efbae1a7af35">
+        <dex dex="/home/guyb/git/Treehouse/Project09/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_94fa8da85e4da6e929e261836a63d375781635a6/classes.dex" />
+    </item>
+    <item
+        jar="/home/guyb/git/Treehouse/Project09/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="5a23d7770b84363988deb10ffcb25679336e51d2">
+        <dex dex="/home/guyb/git/Treehouse/Project09/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_f3d26023e1228fb8c86960a1101dd8bc46ee9203/classes.dex" />
+    </item>
+    <item
+        jar="/home/guyb/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.5/2852e6e05fbb95076fc091f6d1780f1f8fe35e0f/commons-io-2.5.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="2852e6e05fbb95076fc091f6d1780f1f8fe35e0f">
+        <dex dex="/home/guyb/git/Treehouse/Project09/app/build/intermediates/transforms/dex/debug/folders/1000/10/commons-io-2.5_9d83ed6418c6b2786d04d6e52cf995afd430bedb/classes.dex" />
+    </item>
+    <item
+        jar="/home/guyb/git/Treehouse/Project09/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/jars/libs/internal_impl-23.3.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="4da5a4d697d32497c6f85567a5112e62fdfd0676">
+        <dex dex="/home/guyb/git/Treehouse/Project09/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.3.0_4781efc095e439d1bc57699aa018d726cba9cf6c/classes.dex" />
+    </item>
+    <item
+        jar="/home/guyb/.gradle/caches/modules-2/files-2.1/com.parse/parse-android/1.13.1/5f645bf60e3b88ccc02bd2a4018c5e3ef2f77d0a/parse-android-1.13.1.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="5f645bf60e3b88ccc02bd2a4018c5e3ef2f77d0a">
+        <dex dex="/home/guyb/git/Treehouse/Project09/app/build/intermediates/transforms/dex/debug/folders/1000/10/parse-android-1.13.1_d72e52753ffae7b178f024379f22a05e35d9fba8/classes.dex" />
+    </item>
+    <item
+        jar="/home/guyb/git/Treehouse/Project09/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="8a034dd16c0dfd75fe86c52c2cd581592acc684a">
+        <dex dex="/home/guyb/git/Treehouse/Project09/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.3.0_90a0038e70650620846d918fe25bb3341f1b3a4e/classes.dex" />
+    </item>
+    <item
+        jar="/home/guyb/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.3.0/support-annotations-23.3.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="db7791d75a07fef9844d06236c1c59ba7bf6997c">
+        <dex dex="/home/guyb/git/Treehouse/Project09/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.3.0_e2105cedfcf7c166fcfa4a1ce4480386dff7a907/classes.dex" />
+    </item>
+    <item
+        jar="/home/guyb/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.2/7446d06ec8d4f7ffcc53f1da37c95f200dcb9387/picasso-2.5.2.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="/home/guyb/git/Treehouse/Project09/app/build/intermediates/transforms/dex/debug/folders/1000/10/picasso-2.5.2_1d10e7ba7b1584b6533d94029378e7342a3959eb/classes.dex" />
+    </item>
+    <item
+        jar="/home/guyb/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-tasks/1.4.0/d85884acf6810a3bbbecb587f239005cbc846dc4/bolts-tasks-1.4.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="/home/guyb/git/Treehouse/Project09/app/build/intermediates/transforms/dex/debug/folders/1000/10/bolts-tasks-1.4.0_202fa7624603db87ede85414d499ebfbcb2a75b3/classes.dex" />
+    </item>
+
+</items>
