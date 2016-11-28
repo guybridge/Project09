@@ -3,10 +3,12 @@ package com.teamtreehouse.ribbit.ui;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.teamtreehouse.ribbit.R;
@@ -14,7 +16,10 @@ import com.teamtreehouse.ribbit.R;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ViewImageActivity extends AppCompatActivity {
+public class ViewImageActivity extends AppCompatActivity
+{
+
+    private TextView countDownTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,18 +29,33 @@ public class ViewImageActivity extends AppCompatActivity {
         setupActionBar();
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        countDownTextView = (TextView) findViewById(R.id.countDownText);
 
         Uri imageUri = getIntent().getData();
 
         Picasso.with(this).load(imageUri.toString()).into(imageView);
 
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        countDown();
+    }
+
+    private void countDown()
+    {
+        CountDownTimer countDownTimer = new CountDownTimer(10000, 1000)
+        {
             @Override
-            public void run() {
+            public void onTick(long millisUntilFinished)
+            {
+                countDownTextView.setText(String.valueOf(millisUntilFinished / 1000));
+            }
+
+            @Override
+            public void onFinish()
+            {
                 finish();
             }
-        }, 10 * 1000);
+        };
+
+        countDownTimer.start();
     }
 
     /**
