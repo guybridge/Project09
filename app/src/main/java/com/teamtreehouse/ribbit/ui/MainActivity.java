@@ -2,6 +2,7 @@ package com.teamtreehouse.ribbit.ui;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,8 +12,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -37,7 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements
-        ActionBar.TabListener {
+        ActionBar.TabListener, WriteTextFragment.callback {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -47,16 +46,19 @@ public class MainActivity extends AppCompatActivity implements
     public static final int PICK_VIDEO_REQUEST = 3;
     public static final int MEDIA_TYPE_IMAGE = 4;
     public static final int MEDIA_TYPE_VIDEO = 5;
+    public static final int PICK_TEXT_REQUEST = 6;
 
     public static final int FILE_SIZE_LIMIT = 1024 * 1024 * 10; // 10 MB
 
     protected Uri mMediaUri;
 
     protected DialogInterface.OnClickListener mDialogListener =
-            new DialogInterface.OnClickListener() {
+            new DialogInterface.OnClickListener()
+            {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
+                    switch (which)
+                    {
                         case 0: // Take picture
                             Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
@@ -96,6 +98,11 @@ public class MainActivity extends AppCompatActivity implements
                             chooseVideoIntent.setType("video/*");
                             Toast.makeText(MainActivity.this, R.string.video_file_size_warning, Toast.LENGTH_LONG).show();
                             startActivityForResult(chooseVideoIntent, PICK_VIDEO_REQUEST);
+                            break;
+                        case 4: // Write text
+                            FragmentManager fm = getFragmentManager();
+                            WriteTextFragment fragment = new WriteTextFragment();
+                            fragment.show(fm, "show");
                             break;
                     }
                 }
@@ -221,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
+    // Start the message dialog
     private void startCamera()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -236,8 +244,10 @@ public class MainActivity extends AppCompatActivity implements
 
         if (resultCode == RESULT_OK)
         {
-            if (requestCode == PICK_PHOTO_REQUEST || requestCode == PICK_VIDEO_REQUEST) {
-                if (data == null) {
+            if (requestCode == PICK_PHOTO_REQUEST || requestCode == PICK_VIDEO_REQUEST)
+            {
+                if (data == null)
+                {
                     Toast.makeText(this, getString(R.string.general_error), Toast.LENGTH_LONG).show();
                 } else {
                     mMediaUri = data.getData();
@@ -340,5 +350,17 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onTabReselected(ActionBar.Tab tab,
                                 FragmentTransaction fragmentTransaction) {
+    }
+
+    @Override // Result from dialog
+    public void messageData(String data)
+    {
+
+    }
+
+    @Override
+    public void onFail(String errorMessage)
+    {
+
     }
 }
