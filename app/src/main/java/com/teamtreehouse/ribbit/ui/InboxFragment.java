@@ -141,7 +141,7 @@ public class InboxFragment extends ListFragment {
         }
 
         // Delete it!
-        //deleteMessage(message);
+        deleteMessage(message);
     }
 
     private void deleteMessage(ParseObject message)

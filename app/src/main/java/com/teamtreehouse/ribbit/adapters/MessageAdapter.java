@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MessageAdapter extends ArrayAdapter<ParseObject> {
 
@@ -57,15 +58,11 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
         }
 
         ParseObject message = mMessages.get(position);
-
         Date createdAt = message.getCreatedAt();
-        long now = new Date().getTime();
-        SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d");
-        String convertedDate = format.format(createdAt);
 
         try
         {
-            holder.timeLabel.setText(convertedDate);
+            holder.timeLabel.setText(formatDate(createdAt));
         }
         catch(NullPointerException e)
         {
@@ -108,6 +105,57 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 
 
         return convertView;
+    }
+
+    private String formatDate(Date createdAt)
+    {
+        long milliseconds = createdAt.getTime();
+        long now = new Date().getTime();
+        int GMTOffset = createdAt.getTimezoneOffset();
+        Log.i(TAG, "Parse date is: " + milliseconds);
+        Log.i(TAG, "Now is: " + now);
+        Log.i(TAG, "GMT offset is: " + GMTOffset);
+
+        long durationSinceMessage = now - milliseconds;
+
+        long secondsSinceMessage = TimeUnit.MILLISECONDS.toSeconds(durationSinceMessage);
+        long minutesSinceMessage = TimeUnit.MILLISECONDS.toMinutes(durationSinceMessage);
+        long hoursSinceMessage = TimeUnit.MILLISECONDS.toHours(durationSinceMessage);
+        long daysSinceMessage = TimeUnit.MILLISECONDS.toDays(durationSinceMessage);
+
+
+        if(secondsSinceMessage < 60 && secondsSinceMessage > 1) // If the time is between 1 and 59 seconds
+        {
+            Log.i(TAG, "Message received: " + secondsSinceMessage + " seconds ago");
+            return secondsSinceMessage + " seconds ago";
+        }
+        else if(secondsSinceMessage >= 60 && secondsSinceMessage < 3600) // If time is between 1 and 60 minutes
+        {
+            Log.i(TAG, "Message received: " + minutesSinceMessage + " minutes ago");
+            return minutesSinceMessage + " minutes ago";
+        }
+        else if(daysSinceMessage == 1) // Return 1 hour ago for 1 hour
+        {
+            Log.i(TAG, "Message received: " + daysSinceMessage + " days ago");
+            return daysSinceMessage + " hour ago";
+        }
+        else if(hoursSinceMessage > 1 && hoursSinceMessage <= 24) // If the time is between 1 and 24 hours
+        {
+            Log.i(TAG, "Message received: " + hoursSinceMessage + " hours ago");
+            return hoursSinceMessage + " hours ago";
+        }
+        else if(daysSinceMessage > 1)
+        {
+            return daysSinceMessage + " days ago";
+        }
+        else
+        {
+            Log.i(TAG, "value was: " + secondsSinceMessage);
+            return "Just now";
+        }
+
+
+
     }
 
     private static class ViewHolder {
